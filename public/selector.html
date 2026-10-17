@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Data Selector — คุณข้าวปั้น (ณฤดี กมลวิทย์)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --accent: #06b6d4;
+      --accent-light: #ecfeff;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-border: #334155;
+      --surface-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Prompt', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #090d16;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.08) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding-bottom: 120px;
+    }
+
+    /* Header & Navigation Bar */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 24px;
+    }
+
+    .top-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      background: var(--surface);
+    }
+
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-counter {
+      background: rgba(79, 70, 229, 0.25);
+      border: 1px solid rgba(79, 70, 229, 0.5);
+      color: #a5b4fc;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-counter strong {
+      color: #fff;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      color: white;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .btn-outline-accent {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline-accent:hover {
+      background: rgba(6, 182, 212, 0.1);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 28px auto 0;
+      padding: 0 20px;
+    }
+
+    /* Hero Banner */
+    .guide-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .guide-text h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .guide-text p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      max-width: 680px;
+    }
+
+    .quick-preset-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Section Styles */
+    .section-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s ease;
+    }
+
+    .section-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      background: rgba(79, 70, 229, 0.15);
+      border: 1px solid rgba(79, 70, 229, 0.3);
+      color: #818cf8;
+    }
+
+    .section-title h3 {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-title span.rubric-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      letter-spacing: 0.5px;
+    }
+
+    .section-title span.optional-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(148, 163, 184, 0.15);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .section-toggle-all {
+      font-size: 0.8rem;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .section-toggle-all:hover {
+      text-decoration: underline;
+    }
+
+    /* Grid layout for items */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 14px;
+    }
+
+    .items-grid.single-col {
+      grid-template-columns: 1fr;
+    }
+
+    /* Item Card */
+    .item-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .item-card:hover {
+      background: rgba(30, 41, 59, 0.85);
+      border-color: rgba(99, 102, 241, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .item-card.selected {
+      background: rgba(79, 70, 229, 0.12);
+      border-color: rgba(99, 102, 241, 0.55);
+    }
+
+    .item-card.caution {
+      border-left: 3px solid var(--warning);
+    }
+
+    .item-card.recommended {
+      border-left: 3px solid var(--accent);
+    }
+
+    /* Custom Checkbox */
+    .checkbox-wrap {
+      padding-top: 2px;
+    }
+
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      background: rgba(15, 23, 42, 0.8);
+      flex-shrink: 0;
+    }
+
+    .item-card.selected .custom-checkbox {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .custom-checkbox svg {
+      width: 13px;
+      height: 13px;
+      color: white;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: all 0.15s ease;
+    }
+
+    .item-card.selected .custom-checkbox svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Item content */
+    .item-body {
+      flex: 1;
+    }
+
+    .item-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .item-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .item-source-badge {
+      font-size: 0.68rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .item-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .item-extra {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.25);
+      color: #cbd5e1;
+      font-family: monospace;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 12px;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+    .badge-pill.rec {
+      background: rgba(6, 182, 212, 0.2);
+      color: #67e8f9;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .badge-pill.warn {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fde047;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* Radio Group (Single Choice) */
+    .radio-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .radio-card:hover {
+      background: rgba(30, 41, 59, 0.85);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .radio-card.active {
+      background: rgba(79, 70, 229, 0.15);
+      border-color: var(--primary);
+    }
+
+    .custom-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .radio-card.active .custom-radio {
+      border-color: var(--accent);
+    }
+
+    .radio-card.active .custom-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* Sub-options inside cards */
+    .sub-bullets {
+      margin-top: 10px;
+      padding-left: 18px;
+      border-left: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sub-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+
+    .sub-bullet-item input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Photo Selector Gallery */
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .photo-thumb {
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      aspect-ratio: 1;
+      background: #0f172a;
+      transition: all 0.2s ease;
+    }
+
+    .photo-thumb:hover {
+      border-color: var(--accent);
+      transform: scale(1.02);
+    }
+
+    .photo-thumb.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-thumb .photo-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.75);
+      font-size: 0.68rem;
+      padding: 3px 4px;
+      text-align: center;
+      color: #fff;
+    }
+
+    /* Additional notes / text fields */
+    .custom-note-field {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.86rem;
+      resize: vertical;
+      margin-top: 8px;
+    }
+
+    .custom-note-field:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Sticky Bottom Export Bar */
+    .bottom-export-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 14px 24px;
+      z-index: 1000;
+      box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .bottom-export-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .export-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .export-info h4 {
+      font-size: 0.95rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .export-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .export-action-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Modal for Export Result */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 800px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .export-code-box {
+      width: 100%;
+      height: 340px;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 14px;
+      color: #e2e8f0;
+      font-family: 'SF Mono', Consolas, Monaco, monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      resize: none;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: #10b981;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 3000;
+      animation: toastIn 0.25s ease;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .items-grid {
+        grid-template-columns: 1fr;
+      }
+      .guide-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .bottom-export-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .export-action-btns {
+        width: 100%;
+      }
+      .export-action-btns .btn {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand-title">
+        <img src="/images/profile-portrait.png" alt="Narudee" class="brand-avatar" onerror="this.src='/favicon.svg'">
+        <div class="brand-text">
+          <h1>Portfolio Content Selector <span>✨</span></h1>
+          <p>ระบบเลือกข้อมูลเพื่อประกอบแฟ้มผลงาน IT Portfolio & Résumé — คุณข้าวปั้น (ณฤดี)</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="badge-counter" id="summaryCounter">
+          เลือกแล้ว <strong id="selectedCount">0</strong> รายการ
+        </div>
+        <button class="btn btn-secondary" onclick="resetToRecommended()">
+          ✨ ใช้ค่าแนะนำ (Default)
+        </button>
+        <button class="btn btn-primary" onclick="openExportModal()">
+          📥 Export ข้อมูล
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Guide Banner -->
+    <div class="guide-banner">
+      <div class="guide-text">
+        <h2>🎯 ปรับแต่งข้อมูลพอร์ตโฟลิโอตามที่คุณต้องการ</h2>
+        <p>
+          ระบบดึงข้อมูลทั้งหมดมาจาก <strong>my-personal-information</strong> (Brand Story, Personal Inventory, พอร์ตโฟลิโอฉบับมหิดล & มจธ.) 
+          คุณสามารถคลิกเลือก/ยกเลิกแต่ละรายการ จากนั้นกดปุ่ม <strong>"Export ข้อมูล"</strong> เพื่อส่งผลลัพธ์กลับมาให้ AI อัปเดตเว็บไซต์ได้ทันทีครับ
+        </p>
+      </div>
+      <div class="quick-preset-btns">
+        <button class="btn btn-secondary" onclick="selectAll(true)">เลือกทั้งหมด</button>
+        <button class="btn btn-secondary" onclick="selectAll(false)">ล้างการเลือก</button>
+      </div>
+    </div>
+
+    <!-- Section 1: Personal Brand Story & Positioning (หมวดหลัก) -->
+    <section class="section-card" id="sec-brand">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">💡</div>
+          <div>
+            <h3>Section 1: จุดยืนทางวิชาชีพและเรื่องเล่าตัวตน (Brand Story & Persona)</h3>
+            <span class="rubric-tag">เกณฑ์บังคับ Rubric 6 คะแนน</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
+        เลือกทิศทางหลักของ Brand Story ที่ต้องการชูในพอร์ตโฟลิโอและเรซูเม่ (เลือก 1 แบบ):
+      </p>
+
+      <div class="radio-card active" onclick="selectRadio('brand_position', 'hybrid', this)">
+        <div class="custom-radio"></div>
+        <div class="item-body">
+          <div class="item-header-row">
+            <span class="item-title">Option A: สาย Hybrid — Software Developer & Health Data Specialist (⭐ แนะนำ)</span>
+            <span class="item-source-badge">ผสมผสาน 2 ด้าน</span>
+          </div>
+          <div class="item-desc">
+            "I assist clinical research teams, tech organizations, and communities in transforming complex datasets and software challenges into clear, actionable, and human-centered digital solutions."
+          </div>
+          <span class="badge-pill rec">ชูทั้งการพัฒนาซอฟต์แวร์และการวิเคราะห์ข้อมูลสุขภาพ</span>
+        </div>
+      </div>
+
+      <div class="radio-card" onclick="selectRadio('brand_position', 'health_informatics', this)">
+        <div class="custom-radio"></div>
+        <div class="item-body">
+          <div class="item-header-row">
+            <span class="item-title">Option B: สาย Health Informatics & Clinical Data เต็มตัว</span>
+            <span class="item-source-badge">จาก Brand Story 2026</span>
+          </div>
+          <div class="item-desc">
+            "I assist clinical research teams and hospital administrators in turning complex medical datasets into clear, actionable visual insights. Utilizing detail-oriented analytical methods, I ensure health data is accurate and accessible to support better patient outcomes."
+          </div>
+          <span class="badge-pill rec">เน้นงานวิเคราะห์ข้อมูลสุขภาพในโรงพยาบาลและทีมวิจัย</span>
+        </div>
+      </div>
+
+      <div class="radio-card" onclick="selectRadio('brand_position', 'software_dev', this)">
+        <div class="custom-radio"></div>
+        <div class="item-body">
+          <div class="item-header-row">
+            <span class="item-title">Option C: สาย Software Developer & Modern Web/AI</span>
+            <span class="item-source-badge">จาก Portfolio ICT มหิดล</span>
+          </div>
+          <div class="item-desc">
+            "Passionate Software Developer dedicated to building responsive web applications, algorithmic game logic, and interactive community platforms that solve real-world problems."
+          </div>
+          <span class="badge-pill rec">เน้นพัฒนาโปรแกรม Web / Full-Stack / AI ทั่วไป</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <label style="font-size: 0.85rem; color: #cbd5e1; font-weight: 500;">คำอธิบายขยาย (Bio Extended / About Me Paragraph) ที่ต้องการเพิ่มเติมหรือปรับแต่ง:</label>
+        <textarea id="brandStoryCustomNote" class="custom-note-field" rows="3" placeholder="ระบุข้อความ Brand Story หรือข้อความที่ต้องการปรับแต่งเพิ่มเติมได้ที่นี่..."></textarea>
+      </div>
+    </section>
+
+    <!-- Section 2: ข้อมูลส่วนตัวและการติดต่อ (Profile & Contact) -->
+    <section class="section-card" id="sec-profile">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">👤</div>
+          <div>
+            <h3>Section 2: ข้อมูลส่วนตัว & ช่องทางการติดต่อ (Profile & Contact)</h3>
+            <span class="rubric-tag">สำคัญสำหรับติดต่อ</span>
+          </div>
+        </div>
+        <button class="section-toggle-all" onclick="toggleSectionItems('sec-profile')">สลับเลือกทั้งหมด</button>
+      </div>
+
+      <div class="items-grid">
+        <!-- Name -->
+        <div class="item-card selected recommended" data-category="profile" data-id="name_th_en">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ชื่อ-นามสกุล (ไทย & อังกฤษ)</span>
+              <span class="item-source-badge">ข้อมูลหลัก</span>
+            </div>
+            <div class="item-desc">นางสาวณฤดี กมลวิทย์ / Narudee Kamolwit</div>
+          </div>
+        </div>
+
+        <!-- Nickname -->
+        <div class="item-card selected recommended" data-category="profile" data-id="nickname">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ชื่อเล่น (Nickname)</span>
+              <span class="item-source-badge">Portfolio</span>
+            </div>
+            <div class="item-desc">ข้าวปั้น (Khaopan)</div>
+          </div>
+        </div>
+
+        <!-- Student ID -->
+        <div class="item-card selected recommended" data-category="profile" data-id="student_id">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">รหัสนักศึกษา (Student ID)</span>
+              <span class="item-source-badge">วิชาเรียน ITLG301</span>
+            </div>
+            <div class="item-desc">6988144 (คณะ ICT มหาวิทยาลัยมหิดล)</div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="item-card selected recommended" data-category="profile" data-id="email">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">อีเมลติดต่อ (Email)</span>
+              <span class="item-source-badge">Contact</span>
+            </div>
+            <div class="item-desc">narudeekamolwit@gmail.com</div>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="item-card selected recommended" data-category="profile" data-id="phone">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">เบอร์โทรศัพท์ (Phone)</span>
+              <span class="item-source-badge">Contact</span>
+            </div>
+            <div class="item-desc">(+66) 92-554-7051</div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="item-card selected recommended" data-category="profile" data-id="location_general">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ที่ตั้งแบบสาธารณะ (General Location)</span>
+              <span class="item-source-badge">Resume Standard</span>
+            </div>
+            <div class="item-desc">Bangkok / Samut Prakan, Thailand</div>
+            <span class="badge-pill rec">แนะนำ: ปลอดภัย ไม่เปิดเผยบ้านเลขที่</span>
+          </div>
+        </div>
+
+        <!-- Professional Links -->
+        <div class="item-card selected recommended" data-category="profile" data-id="prof_links">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ลิงก์วิชาชีพ (GitHub & LinkedIn)</span>
+              <span class="item-source-badge">IT Portfolio</span>
+            </div>
+            <div class="item-desc">GitHub Profile, LinkedIn, Live Portfolio</div>
+          </div>
+        </div>
+
+        <!-- Facebook -->
+        <div class="item-card" data-category="profile" data-id="facebook">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">Facebook Profile</span>
+              <span class="item-source-badge">Portfolio เดิม</span>
+            </div>
+            <div class="item-desc">Narudee Kamolwit</div>
+          </div>
+        </div>
+
+        <!-- Sensitive: Full Address -->
+        <div class="item-card caution" data-category="profile" data-id="address_full">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ที่อยู่เต็มตามทะเบียนบ้าน</span>
+              <span class="item-source-badge">ข้อมูลส่วนตัวสูง</span>
+            </div>
+            <div class="item-desc">97/51 The Connect@Thiphawan Station ถ.Inventors Club ต.บางเมืองใหม่ อ.เมืองสมุทรปราการ</div>
+            <span class="badge-pill warn">คำเตือนความเป็นส่วนตัว: ควรซ่อนบนเว็บสาธารณะ</span>
+          </div>
+        </div>
+
+        <!-- Sensitive: Parents Info -->
+        <div class="item-card caution" data-category="profile" data-id="parents_info">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ข้อมูลผู้ปกครองและครอบครัว</span>
+              <span class="item-source-badge">ข้อมูลครอบครัว</span>
+            </div>
+            <div class="item-desc">บิดา (นายสุชาญ กมลวิทย์) / มารดา (นางโชติกา กมลวิทย์) พร้อมเบอร์โทร</div>
+            <span class="badge-pill warn">ไม่จำเป็นต้องแสดงใน Portfolio สาธารณะ</span>
+          </div>
+        </div>
+
+        <!-- Hobbies & Special Talents -->
+        <div class="item-card selected" data-category="profile" data-id="hobbies_talents">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ความสามารถพิเศษ & กิจกรรมยามว่าง</span>
+              <span class="item-source-badge">About / Life</span>
+            </div>
+            <div class="item-desc">ดนตรีไทย, ร้องเพลง, แบดมินตัน/แฮนด์บอล, ฟังพอดแคสต์, ถ่ายภาพ, เลี้ยงแมว</div>
+            <span class="badge-pill rec">ช่วยสะท้อน Soft Skills และความเป็นมนุษย์</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photo Selection Gallery -->
+      <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);">
+        <label style="font-size: 0.9rem; font-weight: 600; color: #fff;">📸 เลือกรูปภาพที่จะแสดงในส่วน Profile / Hero Section:</label>
+        <div class="photo-gallery">
+          <div class="photo-thumb selected" onclick="selectPhoto('IMG_4864.JPG', this)">
+            <img src="/images/IMG_4864.JPG" alt="ICT Mahidol Student">
+            <div class="photo-label">ICT มหิดล (สดใส)</div>
+          </div>
+          <div class="photo-thumb" onclick="selectPhoto('IMG_5637.JPG', this)">
+            <img src="/images/IMG_5637.JPG" alt="Portrait Stylish">
+            <div class="photo-label">Portrait สไตล์ชิค</div>
+          </div>
+          <div class="photo-thumb" onclick="selectPhoto('IMG_5643.JPG', this)">
+            <img src="/images/IMG_5643.JPG" alt="Editorial 3-shot">
+            <div class="photo-label">Editorial 3 ช็อต</div>
+          </div>
+          <div class="photo-thumb" onclick="selectPhoto('IMG_5640.JPG', this)">
+            <img src="/images/IMG_5640.JPG" alt="Teal Aesthetic">
+            <div class="photo-label">โทน Teal อาร์ตๆ</div>
+          </div>
+          <div class="photo-thumb" onclick="selectPhoto('IMG_5622.JPG', this)">
+            <img src="/images/IMG_5622.JPG" alt="Friends Teamwork">
+            <div class="photo-label">เพื่อนๆ (Teamwork)</div>
+          </div>
+          <div class="photo-thumb" onclick="selectPhoto('IMG_4542.JPG', this)">
+            <img src="/images/IMG_4542.JPG" alt="Photobooth Stars">
+            <div class="photo-label">โฟโต้บูธดาว</div>
+          </div>
+          <div class="photo-thumb" onclick="selectPhoto('IMG_5641.JPG', this)">
+            <img src="/images/IMG_5641.JPG" alt="Photobooth Gate">
+            <div class="photo-label">โฟโต้บูธซุ้มขาว</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: ประวัติการศึกษา (Education History) -->
+    <section class="section-card" id="sec-education">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">🎓</div>
+          <div>
+            <h3>Section 3: ประวัติการศึกษา (Education History)</h3>
+            <span class="rubric-tag">เกณฑ์บังคับ Rubric 6 คะแนน</span>
+          </div>
+        </div>
+        <button class="section-toggle-all" onclick="toggleSectionItems('sec-education')">สลับเลือกทั้งหมด</button>
+      </div>
+
+      <div class="items-grid single-col">
+        <!-- University -->
+        <div class="item-card selected recommended" data-category="education" data-id="edu_university">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ระดับอุดมศึกษา: มหาวิทยาลัยมหิดล (Faculty of ICT)</span>
+              <span class="item-source-badge">กำลังศึกษา (2026 — ปัจจุบัน)</span>
+            </div>
+            <div class="item-desc">
+              Bachelor of Science in Information and Communication Technology (B.Sc. in ICT)
+              <br>• สาขา/ความมุ่งเน้น: Health Informatics / Software Development & AI
+              <br>• รหัสนักศึกษา: 6988144
+            </div>
+            <div class="sub-bullets">
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="course_ds_algo"> แสดงรายวิชา: Data Structures & Algorithms</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="course_oop"> แสดงรายวิชา: Object-Oriented Programming (OOP)</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="course_db"> แสดงรายวิชา: Database Management Systems</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="course_webapp"> แสดงรายวิชา: Web Application Development</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="course_se"> แสดงรายวิชา: Software Engineering Principles</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- High School -->
+        <div class="item-card selected recommended" data-category="education" data-id="edu_highschool">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ระดับมัธยมศึกษาตอนปลาย: โรงเรียนเซนต์โยเซฟทิพวัล</span>
+              <span class="item-source-badge">เกียรตินิยม (2024 — 2026)</span>
+            </div>
+            <div class="item-desc">
+              แผนการเรียนบริหารธุรกิจ (ศิลป์-คำนวณ) — มุ่งเน้น Health Information Systems
+              <br>• เกรดเฉลี่ยสะสม (GPAX): <strong>3.58 / 4.00</strong>
+              <br>• ได้รับรางวัลนักเรียนดี ประจำปีการศึกษา 2566 (เกรดเฉลี่ย 3.61)
+            </div>
+          </div>
+        </div>
+
+        <!-- Junior High & Primary (Optional) -->
+        <div class="item-card" data-category="education" data-id="edu_primary_junior">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ระดับมัธยมศึกษาตอนต้น และประถมศึกษา (Optional)</span>
+              <span class="item-source-badge">ข้อมูลย้อนหลัง</span>
+            </div>
+            <div class="item-desc">
+              โรงเรียนเซนต์โยเซฟทิพวัล (Intensive English Program) — GPAX ม.ต้น: 3.46, ประถม: 3.40
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: ประสบการณ์ทำงาน & บทบาทความเป็นผู้นำ (Work & Leadership Experience) -->
+    <section class="section-card" id="sec-experience">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">💼</div>
+          <div>
+            <h3>Section 4: ประสบการณ์ทำงาน & กิจกรรมความเป็นผู้นำ (Experience & Activities)</h3>
+            <span class="rubric-tag">เกณฑ์บังคับ Rubric 6 คะแนน</span>
+          </div>
+        </div>
+        <button class="section-toggle-all" onclick="toggleSectionItems('sec-experience')">สลับเลือกทั้งหมด</button>
+      </div>
+
+      <div style="margin-bottom: 14px; background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: 8px;">
+        <span style="font-size: 0.85rem; color: #a5b4fc; font-weight: 600;">💡 ข้อสังเกตจาก Rubric:</span>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">
+          แม้ในแบบประเมิน Inventory จะระบุว่ายังไม่มีงานประจำ (N/A) แต่การนำประสบการณ์กิจกรรมในโรงเรียน/มหาวิทยาลัยมาเขียนด้วยสูตร <strong>Action Verb + Outcome</strong> จะช่วยให้ได้คะแนนเต็มในส่วน Work History
+        </p>
+      </div>
+
+      <div class="items-grid single-col">
+        <!-- AV Tech Operator -->
+        <div class="item-card selected recommended" data-category="experience" data-id="exp_av_tech">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">เจ้าหน้าที่ควบคุมระบบเสียงและมัลติมีเดีย (AV Technical Operator)</span>
+              <span class="item-source-badge">โรงเรียนเซนต์โยเซฟทิพวัล</span>
+            </div>
+            <div class="item-desc">
+              ควบคุมบอร์ดเสียง ไมโครโฟน และระบบเสียงเวทีในงานวันเด็กประจำปีและพิธีการสำคัญของโรงเรียน
+            </div>
+            <div class="sub-bullets">
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="av_bullet_1"> บริหารจัดการระบบเสียงสดสำหรับผู้เข้าร่วมกว่า 1,000+ คนโดยไม่มีสัญญาณขัดข้อง</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="av_bullet_2"> ประสานงานคิวเวทีและการเปลี่ยนผ่านอุปกรณ์สดกว่า 8 ชุดการแสดง</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="av_bullet_3"> มีภาพหลักฐานขณะปฏิบัติหน้าที่จริง (Photo Evidence)</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- MC & Presenter -->
+        <div class="item-card selected recommended" data-category="experience" data-id="exp_mc_host">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">พิธีกรดำเนินรายการ & ประธานชมรมดนตรีไทย (MC & Club President)</span>
+              <span class="item-source-badge">กิจกรรม Smart Show</span>
+            </div>
+            <div class="item-desc">
+              ดำเนินรายการแสดงศิลปวัฒนธรรม Smart Show ต่อหน้านักเรียนและคณาจารย์กว่า 500 คน
+            </div>
+            <div class="sub-bullets">
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="mc_bullet_1"> แสดงทักษะการพูดต่อหน้าสาธารณะ (Public Speaking) และแก้ปัญหาเฉพาะหน้า</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="mc_bullet_2"> ประสานงานสมาชิกชมรมในการจัดตารางซ้อมและดูแลเครื่องดนตรี</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="mc_bullet_3"> มีภาพหลักฐานการทำหน้าที่พิธีกร (Photo Evidence)</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Media & Photographer -->
+        <div class="item-card selected" data-category="experience" data-id="exp_photographer">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ช่างภาพและบันทึกสื่อดิจิทัล (Media & Photographer)</span>
+              <span class="item-source-badge">งานราตรีประจำปี & งานโรงเรียน</span>
+            </div>
+            <div class="item-desc">
+              ถ่ายภาพและจัดหมวดหมู่คลังภาพกิจกรรมให้กับชมรมดนตรีไทยและงานประจำปีโรงเรียน
+            </div>
+            <div class="sub-bullets">
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="photo_bullet_1"> บันทึกภาพกิจกรรมและคัดกรองไฟล์ดิจิทัลสำหรับสื่อประชาสัมพันธ์</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="photo_bullet_2"> มีภาพหลักฐานขณะสะพายกล้องปฏิบัติหน้าที่ (Photo Evidence)</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Freelance Web Developer -->
+        <div class="item-card selected recommended" data-category="experience" data-id="exp_freelance_web">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">ฟรีแลนซ์พัฒนาเว็บ & ผู้ช่วยด้านเทคโนโลยี (Freelance Web Developer)</span>
+              <span class="item-source-badge">2024 — ปัจจุบัน</span>
+            </div>
+            <div class="item-desc">
+              ออกแบบและพัฒนาเว็บไซต์ Responsive และส่วนติดต่อผู้ใช้งานสำหรับชมรมและกลุ่มกิจกรรมนักศึกษา
+            </div>
+            <div class="sub-bullets">
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="free_bullet_1"> ส่งมอบงานตามกำหนดเวลาและโครงสร้างเว็บไซต์ที่เป็นมาตรฐาน</label>
+              <label class="sub-bullet-item"><input type="checkbox" checked data-sub="free_bullet_2"> ใช้ Semantic HTML, CSS Flexbox/Grid และ JavaScript ที่มีประสิทธิภาพ</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: โปรเจกต์ตัวอย่าง (Project Samples) -->
+    <section class="section-card" id="sec-projects">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">🚀</div>
+          <div>
+            <h3>Section 5: ตัวอย่างโปรเจกต์ (University & Work Project Samples)</h3>
+            <span class="rubric-tag">เกณฑ์บังคับ Rubric 6 คะแนน</span>
+          </div>
+        </div>
+        <button class="section-toggle-all" onclick="toggleSectionItems('sec-projects')">สลับเลือกทั้งหมด</button>
+      </div>
+
+      <div class="items-grid single-col">
+        <!-- Project 1: HealthLens -->
+        <div class="item-card selected recommended" data-category="projects" data-id="proj_healthlens">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">Project 1: HealthLens — Clinical Data Visualization Platform</span>
+              <span class="item-source-badge">Health Informatics</span>
+            </div>
+            <div class="item-desc">
+              เว็บแอปพลิเคชันวิเคราะห์และแสดงผลข้อมูลทางการแพทย์เชิงภาพ ช่วยให้ทีมวิจัยและบุคลากรโรงพยาบาลมองเห็นแนวโน้มตัวชี้วัดสุขภาพ
+              <br><strong>บทบาท:</strong> Lead Frontend Developer & Data Analyst
+              <br><strong>เครื่องมือ:</strong> React, JavaScript, Python, Data Visualization, Figma
+              <br><strong>หลักฐาน:</strong> Demo URL, Interactive Chart Components, UI Mockups
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: SJT ClubHub -->
+        <div class="item-card selected recommended" data-category="projects" data-id="proj_clubhub">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">Project 2: SJT ClubHub — Centralized Community Web Portal</span>
+              <span class="item-source-badge">Web & Database</span>
+            </div>
+            <div class="item-desc">
+              แพลตฟอร์มศูนย์กลางชมรมกิจกรรมนักเรียน มีระบบลงทะเบียนกิจกรรม ตารางนัดหมาย และคลังสื่อภาพงานเทศกาล (ต่อยอดจากประสบการณ์ทำเว็บชมรมจริง)
+              <br><strong>บทบาท:</strong> Full-Stack Developer & UI/UX Designer
+              <br><strong>เครื่องมือ:</strong> HTML5, CSS3, JavaScript, MySQL, PHP / Node.js, Figma
+              <br><strong>หลักฐาน:</strong> ระบบล็อกอิน, ฟอร์มลงทะเบียน, แกลเลอรี่ภาพ
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: EcoTrack -->
+        <div class="item-card selected recommended" data-category="projects" data-id="proj_ecotrack">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">Project 3: EcoTrack — Carbon Footprint Calculator & Game</span>
+              <span class="item-source-badge">Logic & Game App</span>
+            </div>
+            <div class="item-desc">
+              แอปพลิเคชันคำนวณการปล่อยคาร์บอนและเกมจำลองการลดโลกร้อน ต่อยอดจากรางวัลรองชนะเลิศอันดับ 1 โปสเตอร์ Carbon Footprint และการแข่งเขียนเกม
+              <br><strong>บทบาท:</strong> Game Logic Engineer & UI Developer
+              <br><strong>เครื่องมือ:</strong> Python, Algorithmic Logic, Interactive Canvas, Figma
+              <br><strong>หลักฐาน:</strong> เกียรติบัตรรางวัลรองชนะเลิศอันดับ 1, แผนผังคำนวณตรรกะ
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: IS Research Study -->
+        <div class="item-card selected" data-category="projects" data-id="proj_is_research">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">Project 4: Independent Study (IS) Research Presentation</span>
+              <span class="item-source-badge">Academic Research</span>
+            </div>
+            <div class="item-desc">
+              การศึกษาการใช้กลยุทธ์และความเข้าใจในการเรียนภาษาต่างประเทศของนักเรียน (รางวัลรองชนะเลิศอันดับ 1 การนำเสนอรายงานเชิงวิชาการ)
+              <br><strong>บทบาท:</strong> Lead Researcher & Presenter
+              <br><strong>หลักฐาน:</strong> เกียรติบัตรรางวัล, สไลด์การนำเสนอ, เล่มรายงานสถิติ
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <label style="font-size: 0.85rem; color: #cbd5e1; font-weight: 500;">มีโปรเจกต์จากวิชาเรียนมหาวิทยาลัยที่ต้องการเพิ่มเข้ามาทดแทนหรือเพิ่มเติมหรือไม่:</label>
+        <textarea id="customProjectNote" class="custom-note-field" rows="2" placeholder="เช่น โปรเจกต์วิชา Database ทำระบบอะไร, เครื่องมืออะไร ระบุได้ที่นี่..."></textarea>
+      </div>
+    </section>
+
+    <!-- Section 6: คลังทักษะ (Skills Inventory) -->
+    <section class="section-card" id="sec-skills">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">⚡</div>
+          <div>
+            <h3>Section 6: คลังทักษะ (Skills Inventory & Levels)</h3>
+            <span class="rubric-tag">เกณฑ์บังคับ Rubric 6 คะแนน</span>
+          </div>
+        </div>
+        <button class="section-toggle-all" onclick="toggleSectionItems('sec-skills')">สลับเลือกทั้งหมด</button>
+      </div>
+
+      <div class="items-grid">
+        <!-- Python -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_python">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">Python</span><span class="item-source-badge">Proficient (85%)</span></div>
+            <div class="item-desc">Data processing, algorithmic logic, data visualization</div>
+          </div>
+        </div>
+
+        <!-- C# -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_csharp">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">C# & OOP</span><span class="item-source-badge">Intermediate (70%)</span></div>
+            <div class="item-desc">Desktop app, game development competition, structured programming</div>
+          </div>
+        </div>
+
+        <!-- C (Beginner) -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_c">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">C Language</span><span class="item-source-badge">Beginner (50%)</span></div>
+            <div class="item-desc">Fundamental programming syntax, procedural logic, control structures</div>
+          </div>
+        </div>
+
+        <!-- JavaScript / Web -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_web">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">JavaScript, HTML5 & CSS3</span><span class="item-source-badge">Proficient (90%)</span></div>
+            <div class="item-desc">Responsive UI, DOM manipulation, Flexbox, CSS Grid</div>
+          </div>
+        </div>
+
+        <!-- SQL / Database -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_database">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">SQL & Database Management</span><span class="item-source-badge">Intermediate (75%)</span></div>
+            <div class="item-desc">MySQL, PostgreSQL, schema design, queries & data structuring</div>
+          </div>
+        </div>
+
+        <!-- React / Frontend -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_react">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">React / Vite Framework</span><span class="item-source-badge">Proficient (85%)</span></div>
+            <div class="item-desc">Component-based architecture, state management, modern web workflows</div>
+          </div>
+        </div>
+
+        <!-- Figma / UI/UX -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_figma">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">UI/UX Design (Figma & Canva)</span><span class="item-source-badge">Proficient</span></div>
+            <div class="item-desc">Wireframing, prototyping, digital layouts for web and mobile</div>
+          </div>
+        </div>
+
+        <!-- Health Data Domain -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_health_data">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">Health Informatics & Data Privacy</span><span class="item-source-badge">Domain Specific</span></div>
+            <div class="item-desc">Sanitizing medical data, EHR concepts, sensitivity awareness</div>
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_soft_skills">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">Soft Skills & Communication</span><span class="item-source-badge">Rubric Required</span></div>
+            <div class="item-desc">Logical Thinking, Team Collaboration, Public Speaking (MC), Attention to Detail</div>
+          </div>
+        </div>
+
+        <!-- Languages -->
+        <div class="item-card selected recommended" data-category="skills" data-id="skill_languages">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row"><span class="item-title">Languages (ภาษา)</span><span class="item-source-badge">Rubric Required</span></div>
+            <div class="item-desc">ภาษาไทย (Native) / ภาษาอังกฤษ (Professional Working & CEFR B2 Prep)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: เกียรติบัตรและรางวัล (Certificates & Awards) -->
+    <section class="section-card" id="sec-awards">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-icon">🏆</div>
+          <div>
+            <h3>Section 7: เกียรติบัตรและรางวัล (Awards, Competitions & Certificates)</h3>
+            <span class="rubric-tag">เกณฑ์เพิ่มคะแนนหมวดเสริม 4 คะแนน</span>
+          </div>
+        </div>
+        <button class="section-toggle-all" onclick="toggleSectionItems('sec-awards')">สลับเลือกทั้งหมด</button>
+      </div>
+
+      <div class="items-grid">
+        <!-- Award 1: IS -->
+        <div class="item-card selected recommended" data-category="awards" data-id="award_is">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">รางวัลรองชนะเลิศอันดับ 1 — นำเสนอรายงานวิชาการ (IS)</span>
+              <span class="item-source-badge">29 ก.พ. 2567</span>
+            </div>
+            <div class="item-desc">
+              การศึกษาการใช้กลยุทธ์/ความเข้าใจในการเรียนภาษาต่างประเทศ ม.4/3 กลุ่มสาระวิทยาศาสตร์และเทคโนโลยี SJT
+            </div>
+            <span class="badge-pill rec">มีไฟล์ภาพเกียรติบัตร cert-is.png</span>
+          </div>
+        </div>
+
+        <!-- Award 2: Carbon Footprint -->
+        <div class="item-card selected recommended" data-category="awards" data-id="award_carbon">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">รางวัลรองชนะเลิศอันดับ 1 — โปสเตอร์ "Carbon Footprint"</span>
+              <span class="item-source-badge">5 ก.ค. 2567</span>
+            </div>
+            <div class="item-desc">
+              การแข่งขันออกแบบโปสเตอร์รณรงค์ลดภาวะโลกร้อน กลุ่มสาระการงานอาชีพและวิทยาศาสตร์ SJT
+            </div>
+            <span class="badge-pill rec">มีไฟล์ภาพเกียรติบัตร cert-poster.png</span>
+          </div>
+        </div>
+
+        <!-- Award 3: Good Student -->
+        <div class="item-card selected recommended" data-category="awards" data-id="award_student">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">รางวัลนักเรียนดีเด่น ประจำปีการศึกษา 2566</span>
+              <span class="item-source-badge">29 มี.ค. 2567</span>
+            </div>
+            <div class="item-desc">
+              ผลการเรียนเฉลี่ยสะสม 3.61 ชั้นมัธยมศึกษาปีที่ 4/3 โรงเรียนเซนต์โยเซฟทิพวัล
+            </div>
+            <span class="badge-pill rec">มีไฟล์ภาพเกียรติบัตร cert-goodstudent.png</span>
+          </div>
+        </div>
+
+        <!-- Cert 4: Math Camp -->
+        <div class="item-card selected recommended" data-category="awards" data-id="cert_math">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">เกียรติบัตรค่ายคณิตศาสตร์ “คณิตคิดสนุก”</span>
+              <span class="item-source-badge">3 ต.ค. 2566</span>
+            </div>
+            <div class="item-desc">
+              กิจกรรมพัฒนาศักยภาพผู้เรียน การแก้โจทย์ตรรกะและคณิตศาสตร์ โรงเรียนเซนต์โยเซฟทิพวัล
+            </div>
+            <span class="badge-pill rec">มีไฟล์ภาพเกียรติบัตร cert-math.png</span>
+          </div>
+        </div>
+
+        <!-- Training 5: English & Digital Prep -->
+        <div class="item-card selected" data-category="awards" data-id="cert_english_prep">
+          <div class="checkbox-wrap"><div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div>
+          <div class="item-body">
+            <div class="item-header-row">
+              <span class="item-title">การอบรมพัฒนาทักษะภาษาอังกฤษและดิจิทัล</span>
+              <span class="item-source-badge">Personal Inventory</span>
+            </div>
+            <div class="item-desc">
+              Practice and preparation for English proficiency exams & Digital Technology training
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Bottom Export Action Bar -->
+  <div class="bottom-export-bar">
+    <div class="bottom-export-inner">
+      <div class="export-info">
+        <div>
+          <h4>พร้อมส่งข้อมูลให้ AI อัปเดตพอร์ตโฟลิโอของคุณ</h4>
+          <p>เลือกแล้ว <span id="barSelectedCount" style="color:#67e8f9; font-weight:700;">0</span> รายการ | ทิศทาง: <span id="barSelectedBrand" style="color:#a5b4fc; font-weight:600;">Hybrid</span></p>
+        </div>
+      </div>
+      <div class="export-action-btns">
+        <button class="btn btn-secondary" onclick="copyDirectSummary()">
+          📋 คัดลอกแบบย่อ
+        </button>
+        <button class="btn btn-primary" onclick="openExportModal()">
+          📥 ดูและคัดลอกข้อมูลทั้งหมด (Export)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal-overlay" id="exportModal" onclick="handleBackdropClick(event)">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><span>📋</span> ข้อมูลที่คุณเลือก (พร้อมส่งให้ AI อัปเดตเว็บไซต์)</h3>
+        <button class="modal-close" onclick="closeExportModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+          กดปุ่ม <strong>"คัดลอกข้อมูล (Copy)"</strong> ด้านล่าง แล้วนำข้อความนี้ไปวางในแชตได้ทันทีครับ:
+        </p>
+        <textarea id="exportOutput" class="export-code-box" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="downloadJSON()">
+          💾 ดาวน์โหลดเป็นไฟล์ JSON
+        </button>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-secondary" onclick="closeExportModal()">ปิด</button>
+          <button class="btn btn-primary" onclick="copyExportCode()">
+            📋 คัดลอกข้อมูล (Copy to Clipboard)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span style="font-size:1.2rem;">✅</span>
+    <span id="toastMsg">คัดลอกข้อมูลเรียบร้อยแล้ว!</span>
+  </div>
+
+  <script>
+    // State management
+    const state = {
+      brandPosition: 'hybrid',
+      selectedPhoto: 'profile-portrait.png',
+      selectedItems: new Set()
+    };
+
+    // Initialize selections on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add click listeners to cards
+      document.querySelectorAll('.item-card').forEach(card => {
+        const id = card.dataset.id;
+        if (card.classList.contains('selected')) {
+          state.selectedItems.add(id);
+        }
+
+        card.addEventListener('click', (e) => {
+          // If clicked directly on a sub-bullet checkbox, don't toggle card
+          if (e.target.tagName === 'INPUT') return;
+          toggleCard(card);
+        });
+      });
+
+      updateCounters();
+    });
+
+    function toggleCard(card) {
+      const id = card.dataset.id;
+      if (card.classList.contains('selected')) {
+        card.classList.remove('selected');
+        state.selectedItems.delete(id);
+      } else {
+        card.classList.add('selected');
+        state.selectedItems.add(id);
+      }
+      updateCounters();
+    }
+
+    function selectRadio(groupName, value, element) {
+      if (groupName === 'brand_position') {
+        state.brandPosition = value;
+        document.querySelectorAll('#sec-brand .radio-card').forEach(c => c.classList.remove('active'));
+        element.classList.add('active');
+        
+        const labels = {
+          hybrid: 'Hybrid (Software Dev & Health Data)',
+          health_informatics: 'Health Informatics & Clinical Data',
+          software_dev: 'Software Developer (Web/AI)'
+        };
+        document.getElementById('barSelectedBrand').textContent = labels[value] || value;
+      }
+    }
+
+    function selectPhoto(filename, element) {
+      state.selectedPhoto = filename;
+      document.querySelectorAll('.photo-thumb').forEach(t => t.classList.remove('selected'));
+      element.classList.add('selected');
+      showToast(`เลือกรูป: ${filename}`);
+    }
+
+    function toggleSectionItems(sectionId) {
+      const section = document.getElementById(sectionId);
+      const cards = section.querySelectorAll('.item-card');
+      const allSelected = Array.from(cards).every(c => c.classList.contains('selected'));
+      
+      cards.forEach(card => {
+        const id = card.dataset.id;
+        if (allSelected) {
+          card.classList.remove('selected');
+          state.selectedItems.delete(id);
+        } else {
+          card.classList.add('selected');
+          state.selectedItems.add(id);
+        }
+      });
+      updateCounters();
+    }
+
+    function selectAll(shouldSelect) {
+      document.querySelectorAll('.item-card').forEach(card => {
+        const id = card.dataset.id;
+        if (shouldSelect) {
+          card.classList.add('selected');
+          state.selectedItems.add(id);
+        } else {
+          card.classList.remove('selected');
+          state.selectedItems.delete(id);
+        }
+      });
+      updateCounters();
+      showToast(shouldSelect ? 'เลือกรายการทั้งหมดแล้ว' : 'ล้างการเลือกทั้งหมดแล้ว');
+    }
+
+    function resetToRecommended() {
+      document.querySelectorAll('.item-card').forEach(card => {
+        const id = card.dataset.id;
+        if (card.classList.contains('recommended')) {
+          card.classList.add('selected');
+          state.selectedItems.add(id);
+        } else if (card.classList.contains('caution')) {
+          card.classList.remove('selected');
+          state.selectedItems.delete(id);
+        }
+      });
+      updateCounters();
+      showToast('คืนค่าเป็นตัวเลือกที่แนะนำสำหรับ Portfolio แล้ว');
+    }
+
+    function updateCounters() {
+      const count = state.selectedItems.size;
+      document.getElementById('selectedCount').textContent = count;
+      document.getElementById('barSelectedCount').textContent = count;
+    }
+
+    // Build the export payload
+    function generateExportData() {
+      const subCheckboxes = {};
+      document.querySelectorAll('.sub-bullet-item input[type="checkbox"]').forEach(cb => {
+        subCheckboxes[cb.dataset.sub] = cb.checked;
+      });
+
+      const exportObj = {
+        meta: {
+          exportDate: new Date().toISOString(),
+          owner: "Narudee Kamolwit (ข้าวปั้น)",
+          studentId: "6988144"
+        },
+        primaryCareerDirection: state.brandPosition,
+        selectedProfilePhoto: state.selectedPhoto,
+        brandStoryCustomNote: document.getElementById('brandStoryCustomNote').value.trim(),
+        customProjectNote: document.getElementById('customProjectNote').value.trim(),
+        selectedSectionsAndItems: {
+          profile: Array.from(state.selectedItems).filter(id => {
+            const card = document.querySelector(`.item-card[data-id="${id}"]`);
+            return card && card.dataset.category === 'profile';
+          }),
+          education: Array.from(state.selectedItems).filter(id => {
+            const card = document.querySelector(`.item-card[data-id="${id}"]`);
+            return card && card.dataset.category === 'education';
+          }),
+          experience: Array.from(state.selectedItems).filter(id => {
+            const card = document.querySelector(`.item-card[data-id="${id}"]`);
+            return card && card.dataset.category === 'experience';
+          }),
+          projects: Array.from(state.selectedItems).filter(id => {
+            const card = document.querySelector(`.item-card[data-id="${id}"]`);
+            return card && card.dataset.category === 'projects';
+          }),
+          skills: Array.from(state.selectedItems).filter(id => {
+            const card = document.querySelector(`.item-card[data-id="${id}"]`);
+            return card && card.dataset.category === 'skills';
+          }),
+          awards: Array.from(state.selectedItems).filter(id => {
+            const card = document.querySelector(`.item-card[data-id="${id}"]`);
+            return card && card.dataset.category === 'awards';
+          })
+        },
+        subItemDetails: subCheckboxes
+      };
+
+      return exportObj;
+    }
+
+    function openExportModal() {
+      const data = generateExportData();
+      const outputText = 
+`# ข้อกำหนดการเลือกข้อมูลพอร์ตโฟลิโอ (Portfolio Selection Config)
+สำหรับคุณข้าวปั้น (ณฤดี กมลวิทย์ - 6988144)
+
+## 1. จุดยืนทางวิชาชีพ (Career Direction):
+- รูปแบบที่เลือก: ${state.brandPosition}
+${data.brandStoryCustomNote ? `- บันทึกเพิ่มเติม: ${data.brandStoryCustomNote}` : ''}
+
+## 2. รูปโปรไฟล์หลักที่เลือก:
+- ${state.selectedPhoto}
+
+## 3. รายการที่เลือกแสดงในแต่ละหมวด:
+- **ข้อมูลส่วนตัว (Profile):** ${data.selectedSectionsAndItems.profile.join(', ') || 'ไม่มี'}
+- **ประวัติการศึกษา (Education):** ${data.selectedSectionsAndItems.education.join(', ') || 'ไม่มี'}
+- **ประสบการณ์ทำงาน/กิจกรรม (Experience):** ${data.selectedSectionsAndItems.experience.join(', ') || 'ไม่มี'}
+- **โปรเจกต์ตัวอย่าง (Projects):** ${data.selectedSectionsAndItems.projects.join(', ') || 'ไม่มี'}
+- **ทักษะ (Skills):** ${data.selectedSectionsAndItems.skills.join(', ') || 'ไม่มี'}
+- **รางวัลและเกียรติบัตร (Awards):** ${data.selectedSectionsAndItems.awards.join(', ') || 'ไม่มี'}
+${data.customProjectNote ? `\n## 4. บันทึกโปรเจกต์เพิ่มเติม:\n${data.customProjectNote}` : ''}
+
+\`\`\`json
+${JSON.stringify(data, null, 2)}
+\`\`\`
+`;
+      document.getElementById('exportOutput').value = outputText;
+      document.getElementById('exportModal').classList.add('active');
+    }
+
+    function closeExportModal() {
+      document.getElementById('exportModal').classList.remove('active');
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === 'exportModal') closeExportModal();
+    }
+
+    function copyExportCode() {
+      const textarea = document.getElementById('exportOutput');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        showToast('คัดลอกข้อมูลทั้งหมดเรียบร้อยแล้ว! นำไปวางในแชตได้เลย');
+      });
+    }
+
+    function copyDirectSummary() {
+      const data = generateExportData();
+      const shortSummary = `ฉันได้เลือกข้อมูลสำหรับ Portfolio ดังนี้:
+- ทิศทางหลัก: ${state.brandPosition}
+- รูปภาพ: ${state.selectedPhoto}
+- รายการที่เลือก: ${Array.from(state.selectedItems).join(', ')}
+${data.brandStoryCustomNote ? `- โน้ตเพิ่มเติม: ${data.brandStoryCustomNote}` : ''}
+${data.customProjectNote ? `- โปรเจกต์เพิ่มเติม: ${data.customProjectNote}` : ''}
+ช่วยนำตัวเลือกนี้ไปปรับปรุงข้อมูลเว็บไซต์พอร์ตโฟลิโอให้ฉันทีค่ะ`;
+      
+      navigator.clipboard.writeText(shortSummary).then(() => {
+        showToast('คัดลอกแบบย่อเรียบร้อยแล้ว! นำไปวางในแชตได้เลย');
+      });
+    }
+
+    function downloadJSON() {
+      const data = generateExportData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `portfolio-selection-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('ดาวน์โหลดไฟล์ JSON เรียบร้อยแล้ว');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
