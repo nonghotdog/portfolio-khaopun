@@ -35,7 +35,7 @@ export default function ResumeModal({ isOpen, onClose }) {
   const handleCopyMarkdown = () => {
     const markdownContent = `# NARUDEE KAMOLWIT
 ${personalData.phone} | ${personalData.email} | ${personalData.location}
-Portfolio: ${personalData.website} | GitHub: ${personalData.github} | LinkedIn: ${personalData.linkedin}
+Portfolio: ${personalData.website} | LinkedIn: ${personalData.linkedin}
 
 PROFESSIONAL SUMMARY
 Detail-oriented Software Developer & Health Data Enthusiast with hands-on experience in empirical research, multimedia systems, and academic leadership. Demonstrated track record in delivering accessible digital tools, leading student organizations, and earning 1st Runner-Up academic research honors. Seeking an engineering role to build reliable, human-centered digital solutions.
@@ -209,7 +209,7 @@ ${personalData.awards.map((award) => `- ${award.title} — ${award.issuer} (${aw
               {personalData.phone} | {personalData.email} | {personalData.location}
             </p>
             <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '2px' }}>
-              Portfolio: {personalData.website} | GitHub: {personalData.github} | LinkedIn: {personalData.linkedin}
+              Portfolio: {personalData.website} | LinkedIn: {personalData.linkedin}
             </p>
           </div>
 

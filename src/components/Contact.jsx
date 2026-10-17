@@ -234,15 +234,6 @@ export default function Contact({ onOpenResume }) {
           }}
         >
           <a
-            href={personalData.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-draw font-display"
-            style={{ color: 'var(--text-light-muted)', fontSize: '1.1rem' }}
-          >
-            GitHub
-          </a>
-          <a
             href={personalData.linkedin}
             target="_blank"
             rel="noopener noreferrer"

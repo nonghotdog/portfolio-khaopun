@@ -7,7 +7,6 @@ export const personalData = {
   email: "narudeekamolwit@gmail.com",
   phone: "(+66) 92-554-7051",
   location: "Bangkok / Samut Prakan, Thailand",
-  github: "https://github.com",
   linkedin: "https://www.linkedin.com/in/narudee-kamolwit-636963444",
   website: "https://narudee-portfolio.dev",
   profilePhoto: "/images/IMG_4864.JPG",
